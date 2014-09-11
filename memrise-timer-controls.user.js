@@ -4,13 +4,12 @@
 // @match          http://www.memrise.com/course/*/garden/*
 // @match          http://www.memrise.com/garden/water/*
 // @version        1
+// @namespace      https://greasyfork.org/users/5238-carpiediem
+// @installURL     https://greasyfork.org/scripts/5001-memrise-timer-controls/code/Memrise%20Timer%20Controls.user.js
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant          GM_getValue
 // @grant          GM_setValue
 // ==/UserScript==
-
-//unsafeWindow.watch("MEMRISE", watchLocation);
-// Do this at some point: http://www.memrise.com/thread/1305495/
 
 oldstart = MEMRISE.garden.feedback.start;
 
