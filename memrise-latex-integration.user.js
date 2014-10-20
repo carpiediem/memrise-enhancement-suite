@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name           Memrise LaTeX Integration
 // @description    This will convert any text that looks like LaTeX inline math (beginning and ending with $) into an image of a well-formatted math expression
-// @match          http://www.memrise.com/course/*/*/*/
+// @match          http://www.memrise.com/course/*/*/
 // @match          http://www.memrise.com/course/*/garden/*
 // @match          http://www.memrise.com/garden/*
 // @version        0.4
 // @namespace      https://greasyfork.org/users/5238-carpiediem
 // @installURL     https://greasyfork.org/scripts/5905-memrise-latex-integration/code/Memrise%20LaTeX%20Integration.user.js
-// @require        http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+// @require        http://static.memrise.com/js/extern/jquery/jquery.1.7.2.min.js
 // @grant          none
 // ==/UserScript==
 
