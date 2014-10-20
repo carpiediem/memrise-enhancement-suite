@@ -2,6 +2,7 @@
 // @name           Memrise LaTeX Integration
 // @description    This will convert any text that looks like LaTeX inline math (beginning and ending with $) into an image of a well-formatted math expression
 // @match          http://www.memrise.com/course/*/*/
+// @match          http://www.memrise.com/course/*/*/*/
 // @match          http://www.memrise.com/course/*/garden/*
 // @match          http://www.memrise.com/garden/*
 // @version        0.4
