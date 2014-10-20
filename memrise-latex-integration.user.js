@@ -7,7 +7,7 @@
 // @version        0.4
 // @namespace      https://greasyfork.org/users/5238-carpiediem
 // @installURL     https://greasyfork.org/scripts/5905-memrise-latex-integration/code/Memrise%20LaTeX%20Integration.user.js
-// @require        http://static.memrise.com/js/extern/jquery/jquery.1.7.2.min.js
+// @require        http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant          none
 // ==/UserScript==
 
