@@ -20,18 +20,19 @@ var re_LaTeX = /^\s*\$(.+)\$\s*$/;
 // On the level list page, check each row in both columns A & B
 var levelListCells = $(".col_a div, .col_b div");
 for (var i=0; i<levelListCells.size(); i++) {
-var reArr = levelListCells.eq(i).text().match(re_LaTeX);
-if (reArr)  levelListCells.eq(i).text(reArr[1]).latex({format:"png"});
+  var reArr = levelListCells.eq(i).text().match(re_LaTeX);
+  if (reArr)  levelListCells.eq(i).text(reArr[1]).latex({format:"png"});
 }
+
 
 // On the garden page, trigger every time the page content changes
 $("#boxes").bind("DOMSubtreeModified", function(e) {
-
-// Check each row & button to see if it looks like LaTeX
-var gardenText = $("div.row-value, div.qquestion, li.choice span.val");
-for (var i=0; i<gardenText.size(); i++) {
-  var reArr = gardenText.eq(i).text().match(re_LaTeX);
-  if (reArr) gardenText.eq(i).latex({format:"png"});
-}
-
+  var gardenText = $("div.row-value, div.qquestion, li.choice span.val");
+  for (var i=0; i<gardenText.size(); i++) {
+    var reArr = gardenText.eq(i).text().match(re_LaTeX);
+    if (reArr) {
+      gardenText.eq(i).text( gardenText.eq(i).text().replace(/\$/g,"") );  //For some reason, $ are pushed into the image URL in this case, but not on the level list
+      gardenText.eq(i).latex({format:"png"});
+    }
+  }
 });
