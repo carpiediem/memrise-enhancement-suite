@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.2
+// @version      0.3
 // @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
 // @author       carpiediem
 // @installURL   https://greasyfork.org/scripts/6305-forvo-audio-in-the-memrise-level-editor/code/Forvo%20Audio%20in%20the%20Memrise%20Level%20Editor.user.js
@@ -19,13 +19,19 @@
 //   5. Check the box to accept the license terms and click on the "Choose plan for free" button.
 //   6. Click on the "Your account" tab. <http://api.forvo.com/account/>
 //   7. Copy the API key (a string of letters and numbers) on the right side of the screen.
-//   8. Paste the key in hte line of code below.  Replace the Xs, but keep the quotes.
+//   8. Paste the key in the line of code below.  Replace the Xs, but keep the quotes.
 forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
 
 
+
+//======DO NOT EDIT BELOW THIS LINE======
+
 $('.container-main').css('width','1100px');
 
+if (forvoApiKey == 'XXXXXXXXXXXXXXXXXXXXXXXXX') console.log('You need to enter your own API key from Forvo.com');
+else
 document.addEventListener("DOMNodeInserted", function(e) {
+    
     if (e.relatedNode.className != "level-things table") return false;
     
     $(e.relatedNode).find('th').eq(4).after('<th class="column"><span class="txt">Other Audio</span></th>');
@@ -38,7 +44,7 @@ document.addEventListener("DOMNodeInserted", function(e) {
     
     $('.forvo-check').click(function(){
         var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
-        //console.log(languageCode
+        //console.log(languageCode);
         
         var word = encodeURI( $(this).attr("data-word") );
 
@@ -56,8 +62,8 @@ document.addEventListener("DOMNodeInserted", function(e) {
 showForvoLinks = function(data){
     popupHTML = '';
     for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '"></a></p>';
-    if (popupHTML=='') popupHTML = 'nothing';
-    $('.forvo-check .dropdown-menu').html(popupHTML);
+    if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
+    $('.forvo-check.open .dropdown-menu').html(popupHTML);
 }
 
 var forvoCodes = {
