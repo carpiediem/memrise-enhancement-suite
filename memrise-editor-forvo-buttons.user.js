@@ -4,7 +4,7 @@
 // @version      0.2
 // @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
 // @author       carpiediem
-// @installURL   https://greasyfork.org/en/scripts/6305-forvo-audio-in-the-memrise-level-editor
+// @installURL   https://greasyfork.org/scripts/6305-forvo-audio-in-the-memrise-level-editor/code/Forvo%20Audio%20in%20the%20Memrise%20Level%20Editor.user.js
 // @match        http://www.memrise.com/course/*/*/edit/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant        none
