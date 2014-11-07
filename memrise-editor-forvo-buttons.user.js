@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.1
+// @version      0.2
 // @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
 // @author       carpiediem
+// @installURL   https://greasyfork.org/en/scripts/6305-forvo-audio-in-the-memrise-level-editor
 // @match        http://www.memrise.com/course/*/*/edit/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @grant        none
@@ -11,8 +12,15 @@
 
 // This script will not work until you enter your own Forvo.com API key
 // To get an API key follow these steps:
-//   1. 
-forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXX';
+//   1. If you don't have a Forvo account already, browse to http://www.forvo.com/signup/ and sign up.
+//   2. Check your email & click the link to verify your account.
+//   3. Browse to http://api.forvo.com/login/ and log in.
+//   4. Click on the "Plans & Pricing" tab and click the button for the Free Plan. <http://api.forvo.com/plans-and-pricing/>.
+//   5. Check the box to accept the license terms and click on the "Choose plan for free" button.
+//   6. Click on the "Your account" tab. <http://api.forvo.com/account/>
+//   7. Copy the API key (a string of letters and numbers) on the right side of the screen.
+//   8. Paste the key in hte line of code below.  Replace the Xs, but keep the quotes.
+forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
 
 
 $('.container-main').css('width','1100px');
@@ -29,9 +37,9 @@ document.addEventListener("DOMNodeInserted", function(e) {
     $('.forvo-check .dropdown-menu').css({'min-width':'30px', padding:'5px'});
     
     $('.forvo-check').click(function(){
-        console.log( $('.add-level .dropdown-menu a:first').text().trim() );
         var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
-        /*
+        //console.log(languageCode
+        
         var word = encodeURI( $(this).attr("data-word") );
 
         $.ajax({
@@ -40,9 +48,6 @@ document.addEventListener("DOMNodeInserted", function(e) {
             dataType: "jsonp",
             type: "jsonp",
         });
-        
-        $(this).$(".dropdown-menu").toggle();
-        */
     });
     
 }, true);  //end of addEventListener
