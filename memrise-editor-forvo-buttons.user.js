@@ -20,7 +20,7 @@
 //   6. Click on the "Your account" tab. <http://api.forvo.com/account/>
 //   7. Copy the API key (a string of letters and numbers) on the right side of the screen.
 //   8. Paste the key in the line of code below.  Replace the Xs, but keep the quotes.
-forvoApiKey = '656e4ccd61af3166507836caa55e777b';
+forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
 
 
 
