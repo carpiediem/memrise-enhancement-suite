@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.3
+// @version      0.4
 // @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
 // @author       carpiediem
-// @installURL   https://greasyfork.org/scripts/6305-forvo-audio-in-the-memrise-level-editor/code/Forvo%20Audio%20in%20the%20Memrise%20Level%20Editor.user.js
 // @match        http://www.memrise.com/course/*/*/edit/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @run-at       document-end
 // ==/UserScript==
 
 // This script will not work until you enter your own Forvo.com API key
@@ -20,17 +20,18 @@
 //   6. Click on the "Your account" tab. <http://api.forvo.com/account/>
 //   7. Copy the API key (a string of letters and numbers) on the right side of the screen.
 //   8. Paste the key in the line of code below.  Replace the Xs, but keep the quotes.
-forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
+forvoApiKey = '656e4ccd61af3166507836caa55e777b';
 
 
 
 //======DO NOT EDIT BELOW THIS LINE======
 
 $('.container-main').css('width','1100px');
+$('#levels').after('<div class="pull-left"><a href="http://www.forvo.com/" title="Pronunciations by Forvo"><img src="http://api.forvo.com/byforvo.gif" width="120" height="40" alt="Pronunciations by Forvo" style="border:0"></a></div>');
 
 if (forvoApiKey == 'XXXXXXXXXXXXXXXXXXXXXXXXX') console.log('You need to enter your own API key from Forvo.com');
 else
-document.addEventListener("DOMNodeInserted", function(e) {
+document.addEventListener("DOMNodeInserted", function(e) {       // NO EVENT TRIGGERED ON THE DATABASE PAGE
     
     if (e.relatedNode.className != "level-things table") return false;
     
@@ -43,28 +44,23 @@ document.addEventListener("DOMNodeInserted", function(e) {
     $('.forvo-check .dropdown-menu').css({'min-width':'30px', padding:'5px'});
     
     $('.forvo-check').click(function(){
-        var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
-        //console.log(languageCode);
-        
-        var word = encodeURI( $(this).attr("data-word") );
-
-        $.ajax({
-            url: "http://apifree.forvo.com/action/word-pronunciations/format/json/word/" + word + "/language/" + languageCode + "/order/rate-desc/limit/4/key/" + forvoApiKey + "/",
-            jsonpCallback: "showForvoLinks",
-            dataType: "jsonp",
-            type: "jsonp",
-        });
+      var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
+      var word = encodeURI( $(this).attr("data-word") );
+      
+      GM_xmlhttpRequest({
+        method: "GET",
+        url: "http://apifree.forvo.com/action/word-pronunciations/format/json/word/" + word + "/language/" + languageCode + "/order/rate-desc/limit/4/key/" + forvoApiKey + "/",
+        onload: function(response) {
+          var data = $.parseJSON(response.responseText);
+          popupHTML = '';
+            for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" title="Right-click is broken in Firefox.  You\'ll need to middle click to save the MP3 file."></a></p>';
+          if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
+          $('.forvo-check.open .dropdown-menu').html(popupHTML);
+        }
+      });
     });
     
 }, true);  //end of addEventListener
-
-
-showForvoLinks = function(data){
-    popupHTML = '';
-    for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '"></a></p>';
-    if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
-    $('.forvo-check.open .dropdown-menu').html(popupHTML);
-}
 
 var forvoCodes = {
     'Afrikaans':'af',
