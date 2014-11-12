@@ -26,17 +26,13 @@ forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
 
 //======DO NOT EDIT BELOW THIS LINE======
 
-$('.container-main').css('width','1100px');
+$('.container-main').css('width','1200px');
 $('#levels').after('<div class="pull-left"><a href="http://www.forvo.com/" title="Pronunciations by Forvo"><img src="http://api.forvo.com/byforvo.gif" width="120" height="40" alt="Pronunciations by Forvo" style="border:0"></a></div>');
+var firefoxTooltip = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) ? 'title="Right-click is broken in Firefox.  You\'ll need to middle click to save the MP3 file."' : '';
 
-if (forvoApiKey == 'XXXXXXXXXXXXXXXXXXXXXXXXX') console.log('You need to enter your own API key from Forvo.com');
-else
-document.addEventListener("DOMNodeInserted", function(e) {       // NO EVENT TRIGGERED ON THE DATABASE PAGE
-    
-    if (e.relatedNode.className != "level-things table") return false;
-    
-    $(e.relatedNode).find('th').eq(4).after('<th class="column"><span class="txt">Other Audio</span></th>');
-    $(e.relatedNode).find('tr').each(function(){
+function addColumn(tableElement) {
+    $(tableElement).find('th').eq(4).after('<th class="column"><span class="txt">Other Audio</span></th>');
+    $(tableElement).find('tr').each(function(){
         var word = $(this).find('td').eq(1).find('.text').text();
         $(this).find('td').eq(4).after('<td><div class="btn-group forvo-check" data-word="' + word + '"><button class="btn btn-mini dropdown-toggle" data-toggle="dropdown" style="overflow:hidden;">Check Forvo<i class="ico ico-s ico-arr-down"></i></button><div class="dropdown-menu audios"><img src="https://d107cgb5lgj7br.cloudfront.net/img/icons/loader@2x.gif" style="width:30px;" /></div></div></td>');
     });
@@ -44,23 +40,44 @@ document.addEventListener("DOMNodeInserted", function(e) {       // NO EVENT TRI
     $('.forvo-check .dropdown-menu').css({'min-width':'30px', padding:'5px'});
     
     $('.forvo-check').click(function(){
-      var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
-      var word = encodeURI( $(this).attr("data-word") );
+      if ( $('.pool-name').size() )
+        var languageCode = forvoCodes[ $('.pool-name').text().trim() ];
+      else
+        var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
+        
+      if (languageCode=="haw")
+        var word = encodeURI( $(this).attr("data-word").replace("he ","").replace(/[ʻ']/,"%60") );;
+      else
+        var word = encodeURI( $(this).attr("data-word") );
       
+      //console.log("API request to: http://apifree.forvo.com/action/word-pronunciations/format/json/word/" + word + "/language/" + languageCode + "/order/rate-desc/limit/4/key/" + forvoApiKey + "/");
       GM_xmlhttpRequest({
         method: "GET",
         url: "http://apifree.forvo.com/action/word-pronunciations/format/json/word/" + word + "/language/" + languageCode + "/order/rate-desc/limit/4/key/" + forvoApiKey + "/",
         onload: function(response) {
           var data = $.parseJSON(response.responseText);
           popupHTML = '';
-            for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" title="Right-click is broken in Firefox.  You\'ll need to middle click to save the MP3 file."></a></p>';
+            for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" ' + firefoxTooltip + '></a></p>';
           if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
           $('.forvo-check.open .dropdown-menu').html(popupHTML);
         }
       });
     });
+}
+
+
+
+if (forvoApiKey == 'XXXXXXXXXXXXXXXXXXXXXXXXX') {
+    console.log('You need to enter your own API key from Forvo.com');
+} else {
+    // Trigger insertion on tables loaded with the rest of the document (database editor)
+    addColumn( $('table.pool-things') );
     
-}, true);  //end of addEventListener
+    // Trigger insertion on tables loaded with AJAX (level editor)
+    document.addEventListener("DOMNodeInserted", function(e) {
+        if (e.relatedNode.className == "level-things table") addColumn(e.relatedNode);
+    }, true);
+}
 
 var forvoCodes = {
     'Afrikaans':'af',
