@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.5
-// @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
+// @version      0.6
+// @description  Adds a column to the Memrise level/database editor with buttons to check for Forvo audio
 // @author       carpiediem
 // @match        http://www.memrise.com/course/*/*/edit/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
@@ -46,7 +46,7 @@ function addColumn(tableElement) {
         var languageCode = forvoCodes[ $('.add-level .dropdown-menu a:first').text().trim() ];
         
       if (languageCode=="haw")
-        var word = encodeURI( $(this).attr("data-word").replace("he ","").replace(/[ʻ']/,"%60") );;
+        var word = encodeURI( $(this).attr("data-word").replace("he ","").replace(/[ʻ']/,"%60") );
       else
         var word = encodeURI( $(this).attr("data-word") );
       
