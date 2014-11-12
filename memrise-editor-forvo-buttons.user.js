@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.4
+// @version      0.5
 // @description  Adds a column to the Memrise level editor with buttons to check for Forvo audio
 // @author       carpiediem
 // @match        http://www.memrise.com/course/*/*/edit/*
