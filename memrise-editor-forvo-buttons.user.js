@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Forvo Audio in the Memrise Level Editor
 // @namespace    https://greasyfork.org/users/5238-carpiediem
-// @version      0.6
+// @version      0.6.1
 // @description  Adds a column to the Memrise level/database editor with buttons to check for Forvo audio
 // @author       carpiediem
 // @match        http://www.memrise.com/course/*/*/edit/*
@@ -57,7 +57,7 @@ function addColumn(tableElement) {
         onload: function(response) {
           var data = $.parseJSON(response.responseText);
           popupHTML = '';
-            for (i in data.items) popupHTML += '<p><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" ' + firefoxTooltip + '></a></p>';
+            for (i in data.items) popupHTML += '<p style="margin:0px><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" ' + firefoxTooltip + '></a></p>';
           if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
           $('.forvo-check.open .dropdown-menu').html(popupHTML);
         }
