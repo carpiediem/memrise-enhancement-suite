@@ -28,7 +28,7 @@ forvoApiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXX';
 
 $('.container-main').css('width','1200px');
 $('#levels').after('<div class="pull-left"><a href="http://www.forvo.com/" title="Pronunciations by Forvo"><img src="http://api.forvo.com/byforvo.gif" width="120" height="40" alt="Pronunciations by Forvo" style="border:0"></a></div>');
-var firefoxTooltip = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) ? 'title="Right-click is broken in Firefox.  You\'ll need to middle click to save the MP3 file."' : '';
+var firefoxTooltip = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) ? '  Right-click is broken in Firefox.  You\'ll need to middle click to save the MP3 file."' : '';
 
 function addColumn(tableElement) {
     $(tableElement).find('th').eq(4).after('<th class="column"><span class="txt">Other Audio</span></th>');
@@ -57,7 +57,7 @@ function addColumn(tableElement) {
         onload: function(response) {
           var data = $.parseJSON(response.responseText);
           popupHTML = '';
-            for (i in data.items) popupHTML += '<p style="margin:0px"><a class="audio-player audio-player-hover" href="' + decodeURI(data.items[i].pathmp3) + '" style="margin:0px" ' + firefoxTooltip + '></a></p>';
+            for (i in data.items) popupHTML += '<p style="margin:0px"><a style="display:inline-block; height:30px; width:30px; background-image:url(\'http://cdn.images.autosport.com/plus/icon_downloadmp30.png\')" href="' + decodeURI(data.items[i].pathmp3) + '" title="Save this file, listen to verify that it\'s good, then upload to Memrise.' + firefoxTooltip + '"></a></p>';
           if (popupHTML=='') popupHTML = '<a href="http://www.forvo.com/word/' + encodeURI( $('.forvo-check.open').attr("data-word") ) + '/" target="_blank">nothing</a>';
           $('.forvo-check.open .dropdown-menu').html(popupHTML);
         }
